@@ -19,29 +19,33 @@ namespace KanbanApi.Sercices
             this._content = context;
 
         }
-        public async Task<ServiceResponse<User>> Add(User newUser)
+        public async Task<ServiceResponse<bool>> Add(LoginModel registerModel)
         {
-            ServiceResponse<User> serviceResponse = new ServiceResponse<User>();
+            ServiceResponse<bool> serviceResponse = new ServiceResponse<bool>();
             
             // vérifier que le username n'exite pas
             var user = _content.Users
-                    .Where( user => user.Username == newUser.Username)
+                    .Where( user => user.Username == registerModel.Username)
                     .FirstOrDefault();
 
             if( user != null)
             {
-                serviceResponse.Data = null;
+                serviceResponse.Data = false;
                 serviceResponse.Status = false;
-                serviceResponse.StatusText = " le username existe déjà";
+                serviceResponse.StatusText = "le username exite";
                 return serviceResponse;
             }
 
             // hacher le password de l'utilisateur
-            newUser.Password = _passworHacher.GetHashedPassword(newUser.Password);
+            registerModel.Password = _passworHacher.GetHashedPassword(registerModel.Password);
+            User newUser = new User();
+            newUser.Username = registerModel.Username;
+            newUser.Password = registerModel.Password;
+
             _content.Users.Add(newUser);
             await _content.SaveChangesAsync();
 
-            serviceResponse.Data = newUser;
+            serviceResponse.Data = true;
             return serviceResponse;
         }
 

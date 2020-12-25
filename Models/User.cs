@@ -10,5 +10,11 @@ namespace KanbanApi.Models
         public IEnumerable<UserKanban> UserKanbans { get; set; }
         public IEnumerable<AssignedTask> AssignedTasks { get; set; }
 
+        // public User(string userName, string password)
+        // {
+        //     this.Username = userName;
+        //     this.Password = password;
+        // }
+
     }
 }

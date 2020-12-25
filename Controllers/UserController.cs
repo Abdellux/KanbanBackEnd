@@ -42,9 +42,9 @@ namespace KanbanApi.Controllers
             return serviceResponse;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<ServiceResponse<User>> PostUser(User user)
+        public async Task<ServiceResponse<bool>> Register(LoginModel user)
         {
             return await _kanbanRepository.Add(user);
         }

@@ -8,7 +8,7 @@ namespace KanbanApi.Sercices
     {
          Task<ServiceResponse<IEnumerable<User>>> GetAll();
          Task<ServiceResponse<User>> GetUser(long Id);
-         Task<ServiceResponse<User>> Add(User NewUser);
+         Task<ServiceResponse<bool>> Add(LoginModel loginModel);
 
         User Authenticate(LoginModel loginModel);
     }

@@ -40,9 +40,12 @@ namespace KanbanApi
                 });
             });
 
-            services.AddScoped<IKanbanRepository, KanbanRepository>();
-            services.AddScoped<IPassworHacher, PasswordHacher>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPasswordHacher, PasswordHacher>();
             services.AddScoped<IJwtAuthManager, JwtAuthManager>();
+            services.AddHttpContextAccessor();
+            services.AddScoped<IKanbanRepository, KanbanRepository>();
+            services.AddScoped<IUserProvider, UserProvider>();
 
 
             //configuration des paramètre du token
@@ -84,7 +87,9 @@ namespace KanbanApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                   name: "Default",
+                   pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

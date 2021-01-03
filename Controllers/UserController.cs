@@ -5,6 +5,7 @@ using KanbanApi.Security;
 using KanbanApi.Models;
 using KanbanApi.Sercices;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace KanbanApi.Controllers
 {
@@ -12,41 +13,41 @@ namespace KanbanApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        public IKanbanRepository _kanbanRepository { get; }
+        public IUserRepository _userRepository { get; }
         public IJwtAuthManager _jwtAuthManager { get; }
-        public UserController(IKanbanRepository kanbanRepository, IJwtAuthManager jwtAuthManager)
+        public UserController(IUserRepository userRepository, IJwtAuthManager jwtAuthManager)
         {
             this._jwtAuthManager = jwtAuthManager;
-            this._kanbanRepository = kanbanRepository;
+            this._userRepository = userRepository;
 
         }
         [HttpGet]
         [Authorize]
         public async Task<ServiceResponse<IEnumerable<User>>> GetUsers()
         {
-            return await _kanbanRepository.GetAll();
+            return await _userRepository.GetAll();
         }
 
-        [HttpGet("{id}")]
-        [Authorize]
-        public async Task<ServiceResponse<User>> GetUser(long id)
-        {
-            var serviceResponse = await _kanbanRepository.GetUser(id);
+        // [HttpGet("{id}")]
+        // [Authorize]
+        // public async Task<ServiceResponse<User>> GetUser(long id)
+        // {
+        //     var serviceResponse = await _userRepository.GetUser(id);
 
-            if (serviceResponse.Data == null)
-            {
-                serviceResponse.Status = false;
-                serviceResponse.StatusText = "the resource does not exist";
-            }
+        //     if (serviceResponse.Data == null)
+        //     {
+        //         serviceResponse.Status = false;
+        //         serviceResponse.StatusText = "the resource does not exist";
+        //     }
 
-            return serviceResponse;
-        }
+        //     return serviceResponse;
+        // }
 
         [HttpPost("register")]
         [AllowAnonymous]
         public async Task<ServiceResponse<bool>> Register(LoginModel user)
         {
-            return await _kanbanRepository.Add(user);
+            return await _userRepository.Add(user);
         }
 
 
@@ -56,7 +57,7 @@ namespace KanbanApi.Controllers
         {
             ServiceResponse<string> serviceResponse = new  ServiceResponse<string>();
             // authentifier l'utilisateur
-            User user = _kanbanRepository.Authenticate(loginModel);
+            User user = _userRepository.Authenticate(loginModel);
             if(user == null)
             {
                 serviceResponse.Status = false;
@@ -70,5 +71,27 @@ namespace KanbanApi.Controllers
             return serviceResponse;
         }
 
+        [HttpGet("checkvalidname/{name}")]
+        [AllowAnonymous]
+        public ServiceResponse<bool> checkValidName(string name)
+        {
+            ServiceResponse<bool> serviceResponse = new  ServiceResponse<bool>();
+            if(String.IsNullOrEmpty(name))
+            {
+                serviceResponse.Data = false;
+                return serviceResponse;
+            }
+
+            if(!_userRepository.IsExistname(name))
+            {
+                serviceResponse.Data = false;
+                serviceResponse.StatusText = "Le username n'existe pas";
+                return serviceResponse;
+            }
+            serviceResponse.Data = true;
+            serviceResponse.StatusText = "le username existe";
+
+            return serviceResponse;
+        }
     }
 }

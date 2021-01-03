@@ -21,7 +21,7 @@ namespace KanbanApi.Security
             var claims = new[]
             {
                 new Claim("username", user.Username),
-                new Claim("Id", user.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
             var token = new JwtSecurityToken(

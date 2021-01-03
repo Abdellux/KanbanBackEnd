@@ -11,5 +11,15 @@ namespace KanbanApi.Models
         public long KanbanId  { get; set; }
         public virtual Kanban Kanban { get; set; }
         public IEnumerable<ColumnTask> ColumnTasks { get; set; }
+
+        public KanbanColumn()
+        {
+            
+        }
+        public KanbanColumn(string titre,long kanbanId)
+        {
+            this.Titre = titre;
+            this.KanbanId = kanbanId;
+        }
     }
 }

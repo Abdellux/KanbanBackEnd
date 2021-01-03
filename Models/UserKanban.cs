@@ -15,5 +15,14 @@ namespace KanbanApi.Models
         // gestionnaire, invite
         public string Status { get; set; }
 
+        public UserKanban()
+        {}
+        public UserKanban(long userId, long kanbanId, string status)
+        {
+            this.UserId = userId;
+            this.KanbanId = kanbanId;
+            this.Status = status;
+        }
+    
     }
 }

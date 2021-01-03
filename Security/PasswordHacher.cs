@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 namespace KanbanApi.Security
 {
-    public class PasswordHacher : IPassworHacher
+    public class PasswordHacher : IPasswordHacher
     {
        public string GetHashedPassword(string password) 
        {

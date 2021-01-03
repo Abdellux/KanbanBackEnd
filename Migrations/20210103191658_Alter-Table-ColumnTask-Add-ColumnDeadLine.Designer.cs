@@ -4,14 +4,16 @@ using KanbanApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KanbanApi.Migrations
 {
     [DbContext(typeof(KanbanDbContext))]
-    partial class KanbanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210103191658_Alter-Table-ColumnTask-Add-ColumnDeadLine")]
+    partial class AlterTableColumnTaskAddColumnDeadLine
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
